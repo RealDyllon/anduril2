@@ -1,0 +1,1 @@
+These hex files have been obtained from: https://ghart.com/blf/firmware/hex_files/sofirn_anduril2/
