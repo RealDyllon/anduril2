@@ -134,6 +134,10 @@
 #include "momentary-mode.h"
 #endif
 
+#ifdef USE_TACTICAL_MODE
+#include "tactical-mode.h"
+#endif
+
 #ifdef USE_TINT_RAMPING
 #include "tint-ramping.h"
 #endif
@@ -189,6 +193,10 @@
 #include "momentary-mode.c"
 #endif
 
+#ifdef USE_TACTICAL_MODE
+#include "tactical-mode.c"
+#endif
+
 #ifdef USE_TINT_RAMPING
 #include "tint-ramping.c"
 #endif
@@ -238,22 +246,6 @@ void setup() {
 
     #else  // if START_AT_MEMORIZED_LEVEL
 
-        #ifdef USE_SOFT_FACTORY_RESET
-        #if (ATTINY == 25) || (ATTINY == 45) || (ATTINY == 85) || (ATTINY == 1634)
-        uint8_t was_wdt_reset = MCUSR & (1<<WDRF);  // get the Watchdog Reset Flag
-        #elif defined(AVRXMEGA3)  // ATTINY816, 817, etc
-        uint8_t was_wdt_reset = RSTCTRL.RSTFR & RSTCTRL_WDRF_bm;  // get the Watchdog Reset Flag
-        #else
-            #error Unrecognized MCU type
-        #endif
-        
-        // if the power-on was because of a WDT Reset, do a factory reset
-        // (note: this implies that the button is currently held down, 
-        // because a 13H is the only way to get to WDT Reset for dual-switch)
-        if(was_wdt_reset)
-            factory_reset();
-        #endif // USE_SOFT_FACTORY_RESET
-
         // dual switch: e-switch + power clicky
         // power clicky acts as a momentary mode
         load_config();
@@ -298,7 +290,13 @@ void loop() {
     else if ((state == strobe_state)
          #ifdef USE_MOMENTARY_MODE
          // also handle momentary strobes
-         ||  ((state == momentary_state) && (momentary_mode == 1) && (momentary_active))
+         || ((
+              (state == momentary_state)
+              #ifdef USE_TACTICAL_MODE
+              || (state == tactical_state)
+              #endif
+             )
+             && (momentary_mode == 1) && (momentary_active))
          #endif
          ) {
         strobe_state_iter();

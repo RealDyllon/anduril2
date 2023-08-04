@@ -56,9 +56,10 @@ uint8_t lockout_state(Event event, uint16_t arg) {
     //  be persistent about going back to sleep every few seconds
     //  even if the user keeps pressing the button)
     #ifdef USE_INDICATOR_LED
-    if (event == EV_enter_state) {
-        indicator_led(indicator_led_mode >> 2);
-    } else
+    // redundant, sleep tick does the same thing
+    //if (event == EV_enter_state) {
+    //    indicator_led_update(indicator_led_mode >> 2, 0);
+    //} else
     #elif defined(USE_AUX_RGB_LEDS)
     if (event == EV_enter_state) {
         rgb_led_update(rgb_led_lockout_mode, 0);
@@ -68,7 +69,8 @@ uint8_t lockout_state(Event event, uint16_t arg) {
         if (arg > HOLD_TIMEOUT) {
             go_to_standby = 1;
             #ifdef USE_INDICATOR_LED
-            indicator_led(indicator_led_mode >> 2);
+            // redundant, sleep tick does the same thing
+            //indicator_led_update(indicator_led_mode >> 2, arg);
             #elif defined(USE_AUX_RGB_LEDS)
             rgb_led_update(rgb_led_lockout_mode, arg);
             #endif
@@ -119,11 +121,18 @@ uint8_t lockout_state(Event event, uint16_t arg) {
         return MISCHIEF_MANAGED;
     }
 
-    // Extended Simple UI adds Aux Config, so do this code later
-    ////////// Every action below here is blocked in the (non-Extended) Simple UI //////////
-    #if defined(USE_SIMPLE_UI) && !defined(USE_EXTENDED_SIMPLE_UI)
+    ////////// Every action below here is blocked in the simple UI //////////
+    #ifdef USE_SIMPLE_UI
     if (simple_ui_active) {
         return EVENT_NOT_HANDLED;
+    }
+    #endif
+
+    #ifdef USE_AUTOLOCK
+    // 10H: configure the autolock option
+    else if (event == EV_click10_hold) {
+        push_state(autolock_config_state, 0);
+        return MISCHIEF_MANAGED;
     }
     #endif
 
@@ -141,7 +150,8 @@ uint8_t lockout_state(Event event, uint16_t arg) {
             if (mode == 1) { mode ++; }
             #endif
             indicator_led_mode = (mode << 2) + (indicator_led_mode & 0x03);
-            indicator_led(mode);
+            // redundant, sleep tick does the same thing
+            //indicator_led_update(indicator_led_mode >> 2, arg);
         #elif defined(USE_AUX_RGB_LEDS)
         #endif
         save_config();
@@ -174,21 +184,6 @@ uint8_t lockout_state(Event event, uint16_t arg) {
     else if (event == EV_click7_hold_release) {
         setting_rgb_mode_now = 0;
         save_config();
-        return MISCHIEF_MANAGED;
-    }
-    #endif
-    
-    #if defined(USE_EXTENDED_SIMPLE_UI) && defined(USE_SIMPLE_UI)
-    ////////// Every action below here is blocked in the Extended Simple UI //////////
-    if (simple_ui_active) {
-        return EVENT_NOT_HANDLED;
-    }
-    #endif // USE_EXTENDED_SIMPLE_UI
-    
-    #ifdef USE_AUTOLOCK
-    // 10H: configure the autolock option
-    else if (event == EV_click10_hold) {
-        push_state(autolock_config_state, 0);
         return MISCHIEF_MANAGED;
     }
     #endif

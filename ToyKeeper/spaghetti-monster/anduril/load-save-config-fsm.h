@@ -95,8 +95,10 @@ typedef enum {
     #ifdef USE_AUTOLOCK
     autolock_time_e,
     #endif
-    #ifdef USE_OUTPUT_MUX
-    output_mux_e,
+    #ifdef USE_TACTICAL_MODE
+    tactical_lvl_1_e,
+    tactical_lvl_2_e,
+    tactical_lvl_3_e,
     #endif
     eeprom_indexes_e_END
 } eeprom_indexes_e;
