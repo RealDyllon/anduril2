@@ -1,0 +1,1 @@
+avrdude -p attiny1616 -c serialupdi -P $1 -U flash:w:new-firmware.hex
