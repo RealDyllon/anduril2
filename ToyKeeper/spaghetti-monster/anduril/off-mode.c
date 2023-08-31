@@ -185,10 +185,11 @@ uint8_t off_state(Event event, uint16_t arg) {
         return MISCHIEF_MANAGED;
     }
     // 2 clicks: highest mode (ceiling)
-    else if (event == EV_2clicks) {
-        set_state(steady_state, MAX_LEVEL);
-        return MISCHIEF_MANAGED;
-    }
+    // NOTE: 2 clicks is now strobe mode
+//    else if (event == EV_2clicks) {
+//        set_state(steady_state, MAX_LEVEL);
+//        return MISCHIEF_MANAGED;
+//    }
     // 3 clicks (initial press): off, to prep for later events
     else if (event == EV_click3_press) {
         set_level(0);
@@ -253,7 +254,8 @@ uint8_t off_state(Event event, uint16_t arg) {
 
     // click, click, long-click: strobe mode
     #ifdef USE_STROBE_STATE
-    else if (event == EV_click3_hold) {
+//    else if (event == EV_click3_hold) {
+    else if (event == EV_2clicks) {
         set_state(strobe_state, 0);
         return MISCHIEF_MANAGED;
     }

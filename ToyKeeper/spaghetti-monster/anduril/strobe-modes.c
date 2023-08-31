@@ -195,6 +195,8 @@ inline void strobe_state_iter() {
             bike_flasher_iter();
             break;
         #endif
+
+        // todo: add more custom flashing modes here
     }
 }
 #endif  // ifdef USE_STROBE_STATE
@@ -280,14 +282,15 @@ inline void bike_flasher_iter() {
     if (burst > MAX_LEVEL) burst = MAX_LEVEL;
     for(uint8_t i=0; i<4; i++) {
         set_level(burst);
-        nice_delay_ms(5);
+        nice_delay_ms(150);
         set_level(bike_flasher_brightness);
-        nice_delay_ms(65);
+        nice_delay_ms(100);
     }
-    nice_delay_ms(720);  // no return check necessary on final delay
     set_level(0);
 }
 #endif
+
+// define other strobe modes' iters here
 
 #ifdef USE_CANDLE_MODE
 #include "candle-mode.c"

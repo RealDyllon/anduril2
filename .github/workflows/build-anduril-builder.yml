@@ -1,0 +1,27 @@
+name: build-anduril-builder
+# This workflow represents a set of basic End-to-End tests
+on:
+  workflow_dispatch:
+
+jobs:
+
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: build image
+        run: |
+          cd ./dyllon/anduril-buildenv-docker
+          DOCKER_BUILDKIT=1 docker build -t anduril-builder . --tag ghcr.io/RealDyllon/anduril-builder:latest
+#          docker run ghcr.io/RealDyllon/anduril-builder:latest
+          docker push ghcr.io/RealDyllon/anduril-builder:latest
