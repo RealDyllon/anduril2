@@ -37,6 +37,9 @@ typedef enum {
     #endif
     #ifdef USE_BIKE_FLASHER_MODE
     bike_flasher_e,
+    custom_flasher_1_e,
+    custom_flasher_2_e,
+    custom_flasher_3_e,
     #endif
     strobe_mode_END
 } strobe_mode_te;
@@ -90,6 +93,9 @@ inline void lightning_storm_iter();
 #define MAX_BIKING_LEVEL 120  // should be 127 or less
 uint8_t bike_flasher_brightness = MAX_1x7135;
 inline void bike_flasher_iter();
+inline void customer_flasher_1_iter();
+inline void customer_flasher_2_iter();
+inline void customer_flasher_3_iter();
 #endif
 
 #ifdef USE_CANDLE_MODE

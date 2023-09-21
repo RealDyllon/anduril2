@@ -89,6 +89,7 @@ uint8_t strobe_state(Event event, uint16_t arg) {
         // lightning has no adjustments
         //else if (st == lightning_storm_e) {}
 
+        // TODO:
         // biking mode brighter
         #ifdef USE_BIKE_FLASHER_MODE
         else if (st == bike_flasher_e) {
@@ -131,6 +132,7 @@ uint8_t strobe_state(Event event, uint16_t arg) {
         // lightning has no adjustments
         //else if (st == lightning_storm_e) {}
 
+        // TODO:
         // biking mode dimmer
         #ifdef USE_BIKE_FLASHER_MODE
         else if (st == bike_flasher_e) {
@@ -193,6 +195,15 @@ inline void strobe_state_iter() {
         #ifdef USE_BIKE_FLASHER_MODE
         case bike_flasher_e:
             bike_flasher_iter();
+            break;
+        case custom_flasher_1_e:
+            customer_flasher_1_iter();
+            break;
+        case custom_flasher_2_e:
+            customer_flasher_2_iter();
+            break;
+        case custom_flasher_3_e:
+            customer_flasher_3_iter();
             break;
         #endif
 
@@ -280,17 +291,50 @@ inline void bike_flasher_iter() {
     // one iteration of main loop()
     uint8_t burst = bike_flasher_brightness << 1;
     if (burst > MAX_LEVEL) burst = MAX_LEVEL;
-    for(uint8_t i=0; i<4; i++) {
-        set_level(burst);
-        nice_delay_ms(150);
-        set_level(bike_flasher_brightness);
-        nice_delay_ms(100);
-    }
-    set_level(0);
+//    for(uint8_t i=0; i<5; i++) {
+//        set_level(burst); //  off (burst)
+//        nice_delay_ms();
+//        set_level(bike_flasher_brightness);
+//        nice_delay_ms(160);
+//    }
+    set_level(bike_flasher_brightness);
+    nice_delay_ms(800);
+    set_level(0); // TODO: should be off,
+    nice_delay_ms(200);
 }
 #endif
 
-// define other strobe modes' iters here
+// todo: define other strobe modes' iters here
+inline void customer_flasher_1_iter() {
+    // one iteration of main loop()
+    uint8_t burst = bike_flasher_brightness << 1;
+    if (burst > MAX_LEVEL) burst = MAX_LEVEL;
+    set_level(bike_flasher_brightness);
+    nice_delay_ms(1200); // times are off - should be 8000ms
+    set_level(0); // TODO: should be off,
+    nice_delay_ms(800); // times are off - should be 2000ms
+}
+
+inline void customer_flasher_2_iter() {
+    // one iteration of main loop()
+    uint8_t burst = bike_flasher_brightness << 1;
+    if (burst > MAX_LEVEL) burst = MAX_LEVEL;
+    set_level(bike_flasher_brightness);
+    nice_delay_ms(250); // times are off - should be 2500ms
+    set_level(0); // TODO: should be off,
+    nice_delay_ms(250);// times are off - should be 2500ms
+}
+
+inline void customer_flasher_3_iter() {
+    // one iteration of main loop()
+    uint8_t burst = bike_flasher_brightness << 1;
+    if (burst > MAX_LEVEL) burst = MAX_LEVEL;
+    set_level(bike_flasher_brightness);
+    nice_delay_ms(100);
+    set_level(0); // TODO: should be off,
+    nice_delay_ms(100);
+}
+
 
 #ifdef USE_CANDLE_MODE
 #include "candle-mode.c"
