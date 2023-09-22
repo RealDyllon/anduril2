@@ -197,18 +197,20 @@ uint8_t off_state(Event event, uint16_t arg) {
     }
     #ifdef USE_BATTCHECK
     // 3 clicks: battcheck mode / blinky mode group 1
-    else if (event == EV_3clicks) {
-        set_state(battcheck_state, 0);
-        return MISCHIEF_MANAGED;
-    }
+    // ! replaced by strobe
+//    else if (event == EV_3clicks) {
+//        set_state(battcheck_state, 0);
+//        return MISCHIEF_MANAGED;
+//    }
     #endif
     #ifdef USE_LOCKOUT_MODE
     // 4 clicks: soft lockout
-    else if (event == EV_4clicks) {
-        blink_once();
-        set_state(lockout_state, 0);
-        return MISCHIEF_MANAGED;
-    }
+    // ! replaced by strobe
+//    else if (event == EV_4clicks) {
+//        blink_once();
+//        set_state(lockout_state, 0);
+//        return MISCHIEF_MANAGED;
+//    }
     #endif
     #if defined(USE_FACTORY_RESET) && defined(USE_SOFT_FACTORY_RESET)
     // 13 clicks and hold the last click: invoke factory reset (reboot)
@@ -257,6 +259,14 @@ uint8_t off_state(Event event, uint16_t arg) {
 //    else if (event == EV_click3_hold) {
     else if (event == EV_2clicks) {
         set_state(strobe_state, 0);
+        return MISCHIEF_MANAGED;
+    }
+    else if (event == EV_3clicks) {
+        set_state(strobe_state, 4);
+        return MISCHIEF_MANAGED;
+    }
+    else if (event == EV_4clicks) {
+        set_state(strobe_state, 7);
         return MISCHIEF_MANAGED;
     }
     #elif defined(USE_BORING_STROBE_STATE)

@@ -54,13 +54,27 @@ uint8_t strobe_state(Event event, uint16_t arg) {
     }
     // 2 clicks: rotate through strobe/flasher modes
     else if (event == EV_2clicks) {
-        strobe_type = (st + 1) % NUM_STROBES;
+        strobe_type = ((st + 1) % 4) + 0; // 0,1,2,3
         save_config();
         return MISCHIEF_MANAGED;
     }
-    // 4 clicks: rotate backward through strobe/flasher modes
+    // 3 clicks - thin thick flashers
+    else if (event == EV_3clicks) {
+        // 50,50,150,50
+        // 50,50,50,50,150,50
+        // 50,50,50,50,50,50,150,50
+        strobe_type = ((st + 1) % 3) + 4; // 4,5,6
+        save_config();
+        return MISCHIEF_MANAGED;
+    }
+    // 4 clicks: asceding on time
     else if (event == EV_4clicks) {
-        strobe_type = (st - 1 + NUM_STROBES) % NUM_STROBES;
+        // 50,50
+        // 100, 50
+        // 150, 50
+        // 200, 50
+        // 250, 50
+        strobe_type = ((st + 1) % 5) + 7; // 7,8,9,10,11
         save_config();
         return MISCHIEF_MANAGED;
     }
@@ -92,12 +106,12 @@ uint8_t strobe_state(Event event, uint16_t arg) {
         // TODO:
         // biking mode brighter
         #ifdef USE_BIKE_FLASHER_MODE
-        else if (st == bike_flasher_e) {
+//        else if (st == bike_flasher_e) {
             bike_flasher_brightness += ramp_direction;
             if (bike_flasher_brightness < 2) bike_flasher_brightness = 2;
             else if (bike_flasher_brightness > MAX_BIKING_LEVEL) bike_flasher_brightness = MAX_BIKING_LEVEL;
             set_level(bike_flasher_brightness);
-        }
+//        }
         #endif
 
         return MISCHIEF_MANAGED;
@@ -193,6 +207,7 @@ inline void strobe_state_iter() {
         #endif
 
         #ifdef USE_BIKE_FLASHER_MODE
+        // custom flashers
         case bike_flasher_e:
             bike_flasher_iter();
             break;
@@ -204,6 +219,32 @@ inline void strobe_state_iter() {
             break;
         case custom_flasher_3_e:
             customer_flasher_3_iter();
+            break;
+        // thin thick flashers
+        case thin_thick_flasher_1_e:
+            thin_thick_flasher_1_iter();
+            break;
+        case thin_thick_flasher_2_e:
+            thin_thick_flasher_2_iter();
+            break;
+        case thin_thick_flasher_3_e:
+            thin_thick_flasher_3_iter();
+            break;
+        // ascending flashers
+        case ascending_flasher_1_e:
+            ascending_flasher_1_iter();
+            break;
+        case ascending_flasher_2_e:
+            ascending_flasher_2_iter();
+            break;
+        case ascending_flasher_3_e:
+            ascending_flasher_3_iter();
+            break;
+        case ascending_flasher_4_e:
+            ascending_flasher_4_iter();
+            break;
+        case ascending_flasher_5_e:
+            ascending_flasher_5_iter();
             break;
         #endif
 
@@ -333,6 +374,108 @@ inline void customer_flasher_3_iter() {
     nice_delay_ms(100);
     set_level(0); // TODO: should be off,
     nice_delay_ms(100);
+}
+
+inline void thin_thick_flasher_1_iter() {
+    // one iteration of main loop()
+    uint8_t burst = bike_flasher_brightness << 1;
+    if (burst > MAX_LEVEL) burst = MAX_LEVEL;
+
+    set_level(bike_flasher_brightness); // on
+    nice_delay_ms(50);
+    set_level(0); // off
+    nice_delay_ms(50);
+
+    set_level(bike_flasher_brightness); // on
+    nice_delay_ms(150);
+    set_level(0); // off
+    nice_delay_ms(50);
+}
+
+inline void thin_thick_flasher_2_iter() {
+    // one iteration of main loop()
+    uint8_t burst = bike_flasher_brightness << 1;
+    if (burst > MAX_LEVEL) burst = MAX_LEVEL;
+
+    for (uint8_t i=0; i<2; i++) { // 2 times
+        set_level(bike_flasher_brightness); // on
+        nice_delay_ms(50);
+        set_level(0); // off
+        nice_delay_ms(50);
+    }
+
+    set_level(bike_flasher_brightness); // on
+    nice_delay_ms(150);
+    set_level(0); // off
+    nice_delay_ms(50);
+}
+
+inline void thin_thick_flasher_3_iter() {
+    // one iteration of main loop()
+    uint8_t burst = bike_flasher_brightness << 1;
+    if (burst > MAX_LEVEL) burst = MAX_LEVEL;
+
+    for (uint8_t i=0; i<3; i++) { // 3 times
+        set_level(bike_flasher_brightness); // on
+        nice_delay_ms(50);
+        set_level(0); // off
+        nice_delay_ms(50);
+    }
+
+    set_level(bike_flasher_brightness); // on
+    nice_delay_ms(150);
+    set_level(0); // off
+    nice_delay_ms(50);
+}
+
+inline void ascending_flasher_1_iter() {
+    // one iteration of main loop()
+    uint8_t burst = bike_flasher_brightness << 1;
+    if (burst > MAX_LEVEL) burst = MAX_LEVEL;
+    set_level(bike_flasher_brightness);
+    nice_delay_ms(50);
+    set_level(0);
+    nice_delay_ms(50);
+}
+
+inline void ascending_flasher_2_iter() {
+    // one iteration of main loop()
+    uint8_t burst = bike_flasher_brightness << 1;
+    if (burst > MAX_LEVEL) burst = MAX_LEVEL;
+    set_level(bike_flasher_brightness);
+    nice_delay_ms(100);
+    set_level(0);
+    nice_delay_ms(50);
+}
+
+inline void ascending_flasher_3_iter() {
+    // one iteration of main loop()
+    uint8_t burst = bike_flasher_brightness << 1;
+    if (burst > MAX_LEVEL) burst = MAX_LEVEL;
+    set_level(bike_flasher_brightness);
+    nice_delay_ms(150);
+    set_level(0);
+    nice_delay_ms(50);
+}
+
+inline void ascending_flasher_4_iter() {
+    // one iteration of main loop()
+    uint8_t burst = bike_flasher_brightness << 1;
+    if (burst > MAX_LEVEL) burst = MAX_LEVEL;
+    set_level(bike_flasher_brightness);
+    nice_delay_ms(200);
+    set_level(0);
+    nice_delay_ms(50);
+}
+
+inline void ascending_flasher_5_iter() {
+    // one iteration of main loop()
+    uint8_t burst = bike_flasher_brightness << 1;
+    if (burst > MAX_LEVEL) burst = MAX_LEVEL;
+    set_level(bike_flasher_brightness);
+    nice_delay_ms(250);
+    set_level(0);
+    nice_delay_ms(50);
 }
 
 

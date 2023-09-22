@@ -23,15 +23,15 @@
 // internal numbering for strobe modes
 #ifdef USE_STROBE_STATE
 typedef enum {
-    #ifdef USE_PARTY_STROBE_MODE
-    party_strobe_e,
-    #endif
-    #ifdef USE_TACTICAL_STROBE_MODE
-    tactical_strobe_e,
-    #endif
-    #ifdef USE_LIGHTNING_MODE
-    lightning_storm_e,
-    #endif
+//    #ifdef USE_PARTY_STROBE_MODE
+//    party_strobe_e,
+//    #endif
+//    #ifdef USE_TACTICAL_STROBE_MODE
+//    tactical_strobe_e,
+//    #endif
+//    #ifdef USE_LIGHTNING_MODE
+//    lightning_storm_e,
+//    #endif
     #ifdef USE_CANDLE_MODE
     candle_mode_e,
     #endif
@@ -40,6 +40,14 @@ typedef enum {
     custom_flasher_1_e,
     custom_flasher_2_e,
     custom_flasher_3_e,
+    thin_thick_flasher_1_e,
+    thin_thick_flasher_2_e,
+    thin_thick_flasher_3_e,
+    ascending_flasher_1_e,
+    ascending_flasher_2_e,
+    ascending_flasher_3_e,
+    ascending_flasher_4_e,
+    ascending_flasher_5_e,
     #endif
     strobe_mode_END
 } strobe_mode_te;
@@ -96,6 +104,14 @@ inline void bike_flasher_iter();
 inline void customer_flasher_1_iter();
 inline void customer_flasher_2_iter();
 inline void customer_flasher_3_iter();
+inline void thin_thick_flasher_1_iter();
+inline void thin_thick_flasher_2_iter();
+inline void thin_thick_flasher_3_iter();
+inline void ascending_flasher_1_iter();
+inline void ascending_flasher_2_iter();
+inline void ascending_flasher_3_iter();
+inline void ascending_flasher_4_iter();
+inline void ascending_flasher_5_iter();
 #endif
 
 #ifdef USE_CANDLE_MODE
