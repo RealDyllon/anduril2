@@ -62,16 +62,12 @@ uint8_t strobe_state(Event event, uint16_t arg) {
         save_config();
         return MISCHIEF_MANAGED;
     }
-    // 3 clicks
-    // todo: switch to strobe_b_mode
-//    else if (event == EV_3clicks) {
-//        // 0 - candle
-//        // 1 to 4 - ascending strobe
-//        // 5 to 8 - thin thin thick
-//        strobe_type = (st + 1) % 4 + 4; // 5 to 8
-//        save_config();
-//        return MISCHIEF_MANAGED;
-//    }
+    // 3 clicks: switch to strobe_b_mode
+    else if (event == EV_3clicks) {
+        set_state(strobe_state_b, 0);
+        set_level(0);
+        return MISCHIEF_MANAGED;
+    }
     // 4 clicks: rotate backward through strobe/flasher modes
 //    else if (event == EV_4clicks) {
 //        strobe_type = (st - 1 + NUM_STROBES) % NUM_STROBES;
