@@ -25,10 +25,10 @@
 
 // timeout durations in ticks (each tick 1/62th s)
 #ifndef HOLD_TIMEOUT
-#define HOLD_TIMEOUT 24
+#define HOLD_TIMEOUT 48
 #endif
 #ifndef RELEASE_TIMEOUT
-#define RELEASE_TIMEOUT 18
+#define RELEASE_TIMEOUT 36
 #endif
 
 // return codes for Event handlers

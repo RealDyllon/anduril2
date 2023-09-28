@@ -148,6 +148,7 @@
 
 // this one detects its own enable/disable settings
 #include "strobe-modes.h"
+#include "strobe-modes-b.h"
 
 #ifdef USE_SOS_MODE
 #include "sos-mode.h"
@@ -207,6 +208,7 @@
 
 #ifdef USE_STROBE_STATE
 #include "strobe-modes.c"
+#include "strobe-modes-b.c"
 #endif
 
 #ifdef USE_SOS_MODE
@@ -300,6 +302,9 @@ void loop() {
          #endif
          ) {
         strobe_state_iter();
+    }
+    else if ((state == strobe_state_b)) {
+        strobe_state_b_iter();
     }
     #endif  // #ifdef USE_STROBE_STATE
 

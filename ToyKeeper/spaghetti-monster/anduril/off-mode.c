@@ -195,13 +195,6 @@ uint8_t off_state(Event event, uint16_t arg) {
         set_level(0);
         return MISCHIEF_MANAGED;
     }
-    #ifdef USE_BATTCHECK
-    // 3 clicks: battcheck mode / blinky mode group 1
-    else if (event == EV_3clicks) {
-        set_state(battcheck_state, 0);
-        return MISCHIEF_MANAGED;
-    }
-    #endif
     #ifdef USE_LOCKOUT_MODE
     // 4 clicks: soft lockout
     else if (event == EV_4clicks) {
@@ -252,11 +245,16 @@ uint8_t off_state(Event event, uint16_t arg) {
     }
     #endif
 
-    // click, click, long-click: strobe mode
+    // click, click: strobe mode
     #ifdef USE_STROBE_STATE
 //    else if (event == EV_click3_hold) {
     else if (event == EV_2clicks) {
         set_state(strobe_state, 0);
+        return MISCHIEF_MANAGED;
+    }
+    // 3 clicks: battcheck mode / blinky mode group 1
+    else if (event == EV_3clicks) {
+        set_state(strobe_state_b, 0);
         return MISCHIEF_MANAGED;
     }
     #elif defined(USE_BORING_STROBE_STATE)

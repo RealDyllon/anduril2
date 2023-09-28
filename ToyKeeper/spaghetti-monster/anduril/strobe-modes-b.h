@@ -17,44 +17,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef STROBE_MODES_H
-#define STROBE_MODES_H
+#ifndef STROBE_MODES_B_H
+#define STROBE_MODES_B_H
 
 // internal numbering for strobe modes
 #ifdef USE_STROBE_STATE
 typedef enum {
-    #ifdef USE_PARTY_STROBE_MODE
-    party_strobe_e,
-    #endif
-    #ifdef USE_TACTICAL_STROBE_MODE
-    tactical_strobe_e,
-    #endif
-    #ifdef USE_LIGHTNING_MODE
-    lightning_storm_e,
-    #endif
-    #ifdef USE_CANDLE_MODE
-    candle_mode_e,
-    #endif
-    #ifdef USE_BIKE_FLASHER_MODE
-    bike_flasher_e,
-    custom_flasher_1_e,
-    custom_flasher_2_e,
-    custom_flasher_3_e,
-//    thin_thin_thick_1_e,
-//    thin_thin_thick_2_e,
-//    thin_thin_thick_3_e,
-//    thin_thin_thick_4_e,
-    #endif
-    strobe_mode_END
-} strobe_mode_te;
+    thin_thin_thick_1_e,
+    thin_thin_thick_2_e,
+    thin_thin_thick_3_e,
+    thin_thin_thick_4_e,
+    strobe_mode_b_END
+} strobe_mode_b_te;
 
-const int NUM_STROBES = strobe_mode_END;
+const int NUM_STROBES_B = strobe_mode_END;
 
 // which strobe mode is active?
 #ifdef USE_CANDLE_MODE
-strobe_mode_te strobe_type = candle_mode_e;
+strobe_mode_b_te strobe_type_b = candle_mode_e;
 #else
-strobe_mode_te strobe_type = 0;
+strobe_mode_b_te strobe_type_b = 0;
 #endif
 #endif
 
@@ -78,8 +60,8 @@ strobe_mode_te strobe_type = 0;
 
 // party and tactical strobes
 #ifdef USE_STROBE_STATE
-uint8_t strobe_state(Event event, uint16_t arg);
-inline void strobe_state_iter();
+uint8_t strobe_state_b(Event event, uint16_t arg);
+inline void strobe_state_b_iter();
 #endif
 
 #if defined(USE_PARTY_STROBE_MODE) || defined(USE_TACTICAL_STROBE_MODE)
@@ -96,15 +78,15 @@ inline void lightning_storm_iter();
 #ifdef USE_BIKE_FLASHER_MODE
 #define MAX_BIKING_LEVEL 120  // should be 127 or less
 #define MINIMUM_PERIOD 100
-uint8_t bike_flasher_brightness = MAX_1x7135;
-inline void bike_flasher_iter();
-inline void customer_flasher_1_iter();
-inline void customer_flasher_2_iter();
-inline void customer_flasher_3_iter();
-//inline void thin_thin_thick_1_iter();
-//inline void thin_thin_thick_2_iter();
-//inline void thin_thin_thick_3_iter();
-//inline void thin_thin_thick_4_iter();
+//uint8_t bike_flasher_brightness = MAX_1x7135;
+//inline void bike_flasher_iter();
+//inline void customer_flasher_1_iter();
+//inline void customer_flasher_2_iter();
+//inline void customer_flasher_3_iter();
+inline void thin_thin_thick_1_iter();
+inline void thin_thin_thick_2_iter();
+inline void thin_thin_thick_3_iter();
+inline void thin_thin_thick_4_iter();
 
 #endif
 
