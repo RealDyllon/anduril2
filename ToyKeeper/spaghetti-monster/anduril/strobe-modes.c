@@ -57,20 +57,21 @@ uint8_t strobe_state(Event event, uint16_t arg) {
         // 0 - candle
         // 1 to 4 - ascending strobe
         // 5 to 8 - thin thin thick
-//        strobe_type = (st + 1) % NUM_STROBES;
-        strobe_type = (st + 1) % 4 + 1; // 1 to 4
+        strobe_type = (st + 1) % NUM_STROBES;
+//        strobe_type = (st + 1) % 4 + 1; // 1 to 4
         save_config();
         return MISCHIEF_MANAGED;
     }
     // 3 clicks
-    else if (event == EV_3clicks) {
-        // 0 - candle
-        // 1 to 4 - ascending strobe
-        // 5 to 8 - thin thin thick
-        strobe_type = (st + 1) % 4 + 4; // 5 to 8
-        save_config();
-        return MISCHIEF_MANAGED;
-    }
+    // todo: switch to strobe_b_mode
+//    else if (event == EV_3clicks) {
+//        // 0 - candle
+//        // 1 to 4 - ascending strobe
+//        // 5 to 8 - thin thin thick
+//        strobe_type = (st + 1) % 4 + 4; // 5 to 8
+//        save_config();
+//        return MISCHIEF_MANAGED;
+//    }
     // 4 clicks: rotate backward through strobe/flasher modes
 //    else if (event == EV_4clicks) {
 //        strobe_type = (st - 1 + NUM_STROBES) % NUM_STROBES;
@@ -226,18 +227,18 @@ inline void strobe_state_iter() {
         // 50,50,50,50,150,50
         // 50,50,50,50,50,50,150,50
         // 50,50,50,50,50,50,50,50,150,50
-        case thin_thin_thick_1_e:
-            thin_thin_thick_1_iter();
-            break;
-        case thin_thin_thick_2_e:
-            thin_thin_thick_2_iter();
-            break;
-        case thin_thin_thick_3_e:
-            thin_thin_thick_3_iter();
-            break;
-        case thin_thin_thick_4_e:
-            thin_thin_thick_4_iter();
-            break;
+//        case thin_thin_thick_1_e:
+//            thin_thin_thick_1_iter();
+//            break;
+//        case thin_thin_thick_2_e:
+//            thin_thin_thick_2_iter();
+//            break;
+//        case thin_thin_thick_3_e:
+//            thin_thin_thick_3_iter();
+//            break;
+//        case thin_thin_thick_4_e:
+//            thin_thin_thick_4_iter();
+//            break;
         // todo
         #endif
 
@@ -326,7 +327,7 @@ inline void bike_flasher_iter() {
     uint8_t burst = bike_flasher_brightness << 1;
     if (burst > MAX_LEVEL) burst = MAX_LEVEL;
     set_level(bike_flasher_brightness);
-    nice_delay_ms(MINIMUM_PERIOD * 2); // times are off - should be 8000ms
+    nice_delay_ms(MINIMUM_PERIOD * 1); // times are off - should be 8000ms
     set_level(0); // TODO: should be off,
     nice_delay_ms(MINIMUM_PERIOD); // times are off - should be 2000ms
 }

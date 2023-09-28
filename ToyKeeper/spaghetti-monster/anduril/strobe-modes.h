@@ -40,10 +40,10 @@ typedef enum {
     custom_flasher_1_e,
     custom_flasher_2_e,
     custom_flasher_3_e,
-    thin_thin_thick_1_e,
-    thin_thin_thick_2_e,
-    thin_thin_thick_3_e,
-    thin_thin_thick_4_e,
+//    thin_thin_thick_1_e,
+//    thin_thin_thick_2_e,
+//    thin_thin_thick_3_e,
+//    thin_thin_thick_4_e,
     #endif
     strobe_mode_END
 } strobe_mode_te;
