@@ -27,10 +27,11 @@ typedef enum {
     thin_thin_thick_2_e,
     thin_thin_thick_3_e,
     thin_thin_thick_4_e,
+    thin_thin_thick_5_e,
     strobe_mode_b_END
 } strobe_mode_b_te;
 
-const int NUM_STROBES_B = strobe_mode_END;
+const int NUM_STROBES_B = strobe_mode_b_END;
 
 // which strobe mode is active?
 #ifdef USE_CANDLE_MODE
@@ -87,6 +88,7 @@ inline void thin_thin_thick_1_iter();
 inline void thin_thin_thick_2_iter();
 inline void thin_thin_thick_3_iter();
 inline void thin_thin_thick_4_iter();
+inline void thin_thin_thick_5_iter();
 
 #endif
 

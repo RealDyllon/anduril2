@@ -249,7 +249,7 @@ uint8_t off_state(Event event, uint16_t arg) {
     #ifdef USE_STROBE_STATE
 //    else if (event == EV_click3_hold) {
     else if (event == EV_2clicks) {
-        set_state(strobe_state, 0);
+        set_state(strobe_state_a, 0);
         return MISCHIEF_MANAGED;
     }
     // 3 clicks: battcheck mode / blinky mode group 1
@@ -257,6 +257,12 @@ uint8_t off_state(Event event, uint16_t arg) {
         set_state(strobe_state_b, 0);
         return MISCHIEF_MANAGED;
     }
+    // TODO
+    // 4 clicks:
+//    else if (event == EV_4clicks) {
+//        set_state(strobe_state, 0);
+//        return MISCHIEF_MANAGED;
+//    }
     #elif defined(USE_BORING_STROBE_STATE)
     else if (event == EV_click3_hold) {
         set_state(boring_strobe_state, 0);

@@ -49,7 +49,7 @@ uint8_t strobe_state_b(Event event, uint16_t arg) {
     }
     // 2 clicks: switch to strobe_b_mode
     else if (event == EV_2clicks) {
-        set_state(strobe_state, 0);
+        set_state(strobe_state_a, 0);
         set_level(0);
         return MISCHIEF_MANAGED;
     }
@@ -126,16 +126,6 @@ uint8_t strobe_state_b(Event event, uint16_t arg) {
 
         // lightning has no adjustments
         //else if (st == lightning_storm_e) {}
-
-        // TODO:
-        // biking mode dimmer
-        #ifdef USE_BIKE_FLASHER_MODE
-        else if (st == bike_flasher_e) {
-            if (bike_flasher_brightness > 2)
-                bike_flasher_brightness --;
-            set_level(bike_flasher_brightness);
-        }
-        #endif
 
         return MISCHIEF_MANAGED;
     }
@@ -219,6 +209,9 @@ inline void strobe_state_b_iter() {
             break;
         case thin_thin_thick_4_e:
             thin_thin_thick_4_iter();
+            break;
+        case thin_thin_thick_5_e:
+            thin_thin_thick_5_iter();
             break;
         // todo
         #endif
@@ -406,6 +399,40 @@ inline void thin_thin_thick_3_iter() {
 inline void thin_thin_thick_4_iter() {
     uint8_t burst = bike_flasher_brightness << 1;
     if (burst > MAX_LEVEL) burst = MAX_LEVEL;
+    set_level(bike_flasher_brightness);
+    nice_delay_ms(MINIMUM_PERIOD); // times are off - should be 8000ms
+    set_level(0); // TODO: should be off,
+    nice_delay_ms(MINIMUM_PERIOD); // times are off - should be 2000ms
+
+    set_level(bike_flasher_brightness);
+    nice_delay_ms(MINIMUM_PERIOD); // times are off - should be 8000ms
+    set_level(0); // TODO: should be off,
+    nice_delay_ms(MINIMUM_PERIOD); // times are off - should be 2000ms
+
+    set_level(bike_flasher_brightness);
+    nice_delay_ms(MINIMUM_PERIOD); // times are off - should be 8000ms
+    set_level(0); // TODO: should be off,
+    nice_delay_ms(MINIMUM_PERIOD); // times are off - should be 2000ms
+
+    set_level(bike_flasher_brightness);
+    nice_delay_ms(MINIMUM_PERIOD); // times are off - should be 8000ms
+    set_level(0); // TODO: should be off,
+    nice_delay_ms(MINIMUM_PERIOD); // times are off - should be 2000ms
+
+    set_level(bike_flasher_brightness);
+    nice_delay_ms(MINIMUM_PERIOD * 3); // times are off - should be 8000ms
+    set_level(0); // TODO: should be off,
+    nice_delay_ms(MINIMUM_PERIOD); // times are off - should be 2000ms
+}
+
+inline void thin_thin_thick_5_iter() {
+    uint8_t burst = bike_flasher_brightness << 1;
+    if (burst > MAX_LEVEL) burst = MAX_LEVEL;
+    set_level(bike_flasher_brightness);
+    nice_delay_ms(MINIMUM_PERIOD); // times are off - should be 8000ms
+    set_level(0); // TODO: should be off,
+    nice_delay_ms(MINIMUM_PERIOD); // times are off - should be 2000ms
+
     set_level(bike_flasher_brightness);
     nice_delay_ms(MINIMUM_PERIOD); // times are off - should be 8000ms
     set_level(0); // TODO: should be off,

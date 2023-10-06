@@ -21,9 +21,9 @@
 #define STROBE_MODES_FSM_H
 
 // enable the random number generator if we need it
-#if defined(USE_LIGHTNING_MODE) || defined(USE_CANDLE_MODE)
+//#if defined(USE_LIGHTNING_MODE) || defined(USE_CANDLE_MODE)
 #define USE_PSEUDO_RAND
-#endif
+//#endif
 
 // party strobe uses really short pulses
 #ifdef USE_PARTY_STROBE_MODE
