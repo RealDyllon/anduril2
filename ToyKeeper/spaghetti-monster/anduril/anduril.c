@@ -149,6 +149,7 @@
 // this one detects its own enable/disable settings
 #include "strobe-modes-a.h"
 #include "strobe-modes-b.h"
+#include "strobe-modes-classic.h"
 
 #ifdef USE_SOS_MODE
 #include "sos-mode.h"
@@ -209,6 +210,7 @@
 #ifdef USE_STROBE_STATE
 #include "strobe-modes-a.c"
 #include "strobe-modes-b.c"
+#include "strobe-modes-classic.c"
 #endif
 
 #ifdef USE_SOS_MODE
@@ -306,6 +308,9 @@ void loop() {
     else if ((state == strobe_state_b)) {
         strobe_state_b_iter();
     }
+    else if ((state == strobe_state_classic)) {
+        strobe_state_classic_iter();
+    }
     #endif  // #ifdef USE_STROBE_STATE
 
     #ifdef USE_BORING_STROBE_STATE
@@ -378,6 +383,9 @@ void low_voltage() {
         set_state(steady_state, RAMP_SIZE/6);
     }
     else if (state == strobe_state_b) {
+        set_state(steady_state, RAMP_SIZE/6);
+    }
+    else if (state == strobe_state_classic) {
         set_state(steady_state, RAMP_SIZE/6);
     }
     #endif

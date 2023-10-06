@@ -29,18 +29,6 @@ uint8_t strobe_state_a(Event event, uint16_t arg) {
     // 'st' reduces ROM size slightly
     strobe_mode_te st = strobe_type;
 
-    #ifdef USE_MOMENTARY_MODE
-    momentary_mode = 1;  // 0 = ramping, 1 = strobes
-    #endif
-
-    #ifdef USE_CANDLE_MODE
-    // pass all events to candle mode, when it's active
-    // (the code is in its own pseudo-state to keep things cleaner)
-    if (st == candle_mode_e) {
-        candle_mode_state(event, arg);
-    }
-    #endif
-
     if (0) {}  // placeholder
     // init anything which needs to be initialized
     else if (event == EV_enter_state) {
@@ -69,32 +57,16 @@ uint8_t strobe_state_a(Event event, uint16_t arg) {
         return MISCHIEF_MANAGED;
     }
     // 4 clicks: rotate backward through strobe/flasher modes
-//    else if (event == EV_4clicks) {
-//        strobe_type = (st - 1 + NUM_STROBES) % NUM_STROBES;
-//        save_config();
-//        return MISCHIEF_MANAGED;
-//    }
+    else if (event == EV_4clicks) {
+        set_state(strobe_state_classic, 0);
+        set_level(0);
+        return MISCHIEF_MANAGED;
+    }
     // hold: change speed (go faster)
     //       or change brightness (brighter)
     else if (event == EV_click1_hold) {
         if (0) {}  // placeholder
 
-        // party / tactical strobe faster
-        #if defined(USE_PARTY_STROBE_MODE) || defined(USE_TACTICAL_STROBE_MODE)
-        #ifdef USE_TACTICAL_STROBE_MODE
-        else if (st <= tactical_strobe_e) {
-        #else
-        else if (st == party_strobe_e) {
-        #endif
-            if ((arg & 1) == 0) {
-                uint8_t d = strobe_delays[st];
-                d -= ramp_direction;
-                if (d < 8) d = 8;
-                else if (d > 254) d = 254;
-                strobe_delays[st] = d;
-            }
-        }
-        #endif
 
         // lightning has no adjustments
         //else if (st == lightning_storm_e) {}
@@ -169,33 +141,6 @@ inline void strobe_state_iter() {
 }
 #endif  // ifdef USE_STROBE_STATE
 
-#if defined(USE_PARTY_STROBE_MODE) || defined(USE_TACTICAL_STROBE_MODE)
-inline void party_tactical_strobe_mode_iter(uint8_t st) {
-    srand(time(NULL)); // for rand int duration
-    // one iteration of main loop()
-    uint8_t del = strobe_delays[st];
-    // TODO: make tac strobe brightness configurable?
-    set_level(STROBE_BRIGHTNESS);
-    if (0) {}  // placeholde0
-    #ifdef USE_PARTY_STROBE_MODE
-    else if (st == party_strobe_e) {  // party strobe
-        #ifdef PARTY_STROBE_ONTIME
-        nice_delay_ms(PARTY_STROBE_ONTIME);
-        #else
-        if (del < 42) delay_zero();
-        else nice_delay_ms(1);
-        #endif
-    }
-    #endif
-    #ifdef USE_TACTICAL_STROBE_MODE
-    else {  //tactical strobe
-        nice_delay_ms(del >> 1);
-    }
-    #endif
-    set_level(STROBE_OFF_LEVEL);
-    nice_delay_ms(del);  // no return check necessary on final delay
-}
-#endif
 
 inline void customer_flasher_0_iter() {
     // one iteration of main loop()
@@ -249,14 +194,6 @@ inline void customer_flasher_4_iter() {
     nice_delay_ms(MINIMUM_PERIOD);
 }
 
-#ifdef USE_CANDLE_MODE
-#include "candle-mode.c"
-#endif
-
-
-#ifdef USE_BORING_STROBE_STATE
-#include "ff-strobe-modes.c"
-#endif
 
 #endif
 

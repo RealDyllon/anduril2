@@ -34,11 +34,7 @@ typedef enum {
 const int NUM_STROBES_B = strobe_mode_b_END;
 
 // which strobe mode is active?
-#ifdef USE_CANDLE_MODE
-strobe_mode_b_te strobe_type_b = candle_mode_e;
-#else
 strobe_mode_b_te strobe_type_b = 0;
-#endif
 #endif
 
 
@@ -59,47 +55,19 @@ strobe_mode_b_te strobe_type_b = 0;
 #define STROBE_OFF_LEVEL 0
 #endif
 
+#define MINIMUM_PERIOD 100
+
 // party and tactical strobes
 #ifdef USE_STROBE_STATE
 uint8_t strobe_state_b(Event event, uint16_t arg);
 inline void strobe_state_b_iter();
 #endif
 
-#if defined(USE_PARTY_STROBE_MODE) || defined(USE_TACTICAL_STROBE_MODE)
-// party / tactical strobe timing
-uint8_t strobe_delays[] = { 41, 67 };  // party strobe 24 Hz, tactical strobe 10 Hz
-inline void party_tactical_strobe_mode_iter(uint8_t st);
-#endif
-
-#ifdef USE_LIGHTNING_MODE
-inline void lightning_storm_iter();
-#endif
-
-// bike mode config options
-#ifdef USE_BIKE_FLASHER_MODE
-#define MAX_BIKING_LEVEL 120  // should be 127 or less
-#define MINIMUM_PERIOD 100
-//uint8_t bike_flasher_brightness = MAX_1x7135;
-//inline void bike_flasher_iter();
-//inline void customer_flasher_1_iter();
-//inline void customer_flasher_2_iter();
-//inline void customer_flasher_3_iter();
 inline void thin_thin_thick_1_iter();
 inline void thin_thin_thick_2_iter();
 inline void thin_thin_thick_3_iter();
 inline void thin_thin_thick_4_iter();
 inline void thin_thin_thick_5_iter();
 
-#endif
-
-#ifdef USE_CANDLE_MODE
-#include "candle-mode.h"
-#endif
-
-
-#if defined(USE_POLICE_STROBE_MODE) || defined(USE_SOS_MODE_IN_FF_GROUP)
-#define USE_BORING_STROBE_STATE
-#include "ff-strobe-modes.h"
-#endif
 
 #endif

@@ -195,14 +195,15 @@ uint8_t off_state(Event event, uint16_t arg) {
         set_level(0);
         return MISCHIEF_MANAGED;
     }
-    #ifdef USE_LOCKOUT_MODE
-    // 4 clicks: soft lockout
-    else if (event == EV_4clicks) {
-        blink_once();
-        set_state(lockout_state, 0);
-        return MISCHIEF_MANAGED;
-    }
-    #endif
+    // NOTE: this is replaced by strobe modes classic at 4clicks
+//    #ifdef USE_LOCKOUT_MODE
+//    // 4 clicks: soft lockout
+//    else if (event == EV_4clicks) {
+//        blink_once();
+//        set_state(lockout_state, 0);
+//        return MISCHIEF_MANAGED;
+//    }
+//    #endif
     #if defined(USE_FACTORY_RESET) && defined(USE_SOFT_FACTORY_RESET)
     // 13 clicks and hold the last click: invoke factory reset (reboot)
     else if (event == EV_click13_hold) {
@@ -257,12 +258,10 @@ uint8_t off_state(Event event, uint16_t arg) {
         set_state(strobe_state_b, 0);
         return MISCHIEF_MANAGED;
     }
-    // TODO
-    // 4 clicks:
-//    else if (event == EV_4clicks) {
-//        set_state(strobe_state, 0);
-//        return MISCHIEF_MANAGED;
-//    }
+    else if (event == EV_4clicks) {
+        set_state(strobe_state_classic, 0);
+        return MISCHIEF_MANAGED;
+    }
     #elif defined(USE_BORING_STROBE_STATE)
     else if (event == EV_click3_hold) {
         set_state(boring_strobe_state, 0);
