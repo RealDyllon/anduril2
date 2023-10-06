@@ -55,7 +55,7 @@ strobe_mode_b_te strobe_type_b = 0;
 #define STROBE_OFF_LEVEL 0
 #endif
 
-#define MINIMUM_PERIOD 100
+#define MINIMUM_PERIOD 40
 
 // party and tactical strobes
 #ifdef USE_STROBE_STATE
