@@ -27,7 +27,7 @@ typedef enum {
     custom_flasher_1_e,
     custom_flasher_2_e,
     custom_flasher_3_e,
-//    custom_flasher_4_e, // disable random for now
+    custom_flasher_4_e,
     strobe_mode_a_END
 } strobe_mode_te;
 

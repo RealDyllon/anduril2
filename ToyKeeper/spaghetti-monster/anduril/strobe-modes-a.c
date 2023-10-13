@@ -137,6 +137,9 @@ inline void strobe_state_iter() {
         case custom_flasher_3_e:
             customer_flasher_3_iter();
             break;
+        case custom_flasher_4_e:
+            customer_flasher_4_iter();
+            break;
     }
 }
 #endif  // ifdef USE_STROBE_STATE
@@ -187,9 +190,12 @@ inline void customer_flasher_4_iter() {
     uint8_t burst = bike_flasher_brightness << 1;
     if (burst > MAX_LEVEL) burst = MAX_LEVEL;
     set_level(bike_flasher_brightness);
-    // random duration
-    uint8_t random_duration_factor = pseudo_rand() % 4 + 1; // range 1 to 4
-    nice_delay_ms(MINIMUM_PERIOD * random_duration_factor);
+
+    // Generate a random number between 1 and 4
+    uint16_t rand_time_multiplier = (pseudo_rand() % 4) + 1;
+    uint16_t rand_time_period = MINIMUM_PERIOD * rand_time_multiplier;
+
+    nice_delay_ms(rand_time_period);
     set_level(0); // TODO: should be off,
     nice_delay_ms(MINIMUM_PERIOD);
 }

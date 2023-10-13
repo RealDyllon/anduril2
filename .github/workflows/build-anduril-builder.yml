@@ -21,5 +21,4 @@ jobs:
         run: |
           cd ./dyllon/anduril-buildenv-docker
           DOCKER_BUILDKIT=1 docker build -t anduril-builder . --tag ghcr.io/RealDyllon/anduril-builder:latest
-#          docker run ghcr.io/RealDyllon/anduril-builder:latest
           docker push ghcr.io/RealDyllon/anduril-builder:latest
