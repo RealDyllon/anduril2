@@ -67,7 +67,8 @@ inline void strobe_state_iter();
 // bike mode config options
 #ifdef USE_BIKE_FLASHER_MODE
 #define MAX_BIKING_LEVEL 120  // should be 127 or less
-#define MINIMUM_PERIOD 40
+#define MINIMUM_PERIOD 40 // double time
+
 // uint8_t bike_flasher_brightness = MAX_1x7135;
 inline void customer_flasher_0_iter();
 inline void customer_flasher_1_iter();
